@@ -8,10 +8,11 @@ using System.Collections.Generic;
 /**
  * Deliver more ore to hq (left side of the map) than your opponent. Use radars to find ore but beware of traps!
  **/
-class Game
+class Player
 {
     static void Main(string[] args)
     {
+        var game = new Game();
         string[] inputs;
         inputs = Console.ReadLine().Split(' ');
         int width = int.Parse(inputs[0]);
@@ -20,6 +21,7 @@ class Game
         // game loop
         while (true)
         {
+            game.Map.Clear();
             inputs = Console.ReadLine().Split(' ');
             int myScore = int.Parse(inputs[0]); // Amount of ore delivered
             int opponentScore = int.Parse(inputs[1]);
@@ -28,10 +30,12 @@ class Game
                 inputs = Console.ReadLine().Split(' ');
                 for (int j = 0; j < width; j++)
                 {
+                    //game.Map.Add(new Point { X = j, Y = i, Content = inputs[j] });
                     string ore = inputs[2 * j];// amount of ore or "?" if unknown
                     int hole = int.Parse(inputs[2 * j + 1]);// 1 if cell has a hole
                 }
             }
+            game.Map.ForEach(p => { Console.Error.WriteLine(p.Content); });
             inputs = Console.ReadLine().Split(' ');
             int entityCount = int.Parse(inputs[0]); // number of entities visible to you
             int radarCooldown = int.Parse(inputs[1]); // turns left until a new radar can be requested
@@ -56,4 +60,18 @@ class Game
             }
         }
     }
+}
+public class Point
+{
+    public int X { get; set; }
+    public int Y { get; set; }
+    public string Content { get; set; }
+}
+public class Game
+{
+    public List<Point> Map { get; set; } = new List<Point>();
+}
+public class Robot
+{
+    public Point Loccation { get; set; } = new Point();
 }
